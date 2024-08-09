@@ -8,8 +8,8 @@ import "../styles/Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Login = () => {
   const [ showPassword, setShowPassword ] = useState(false);
@@ -29,13 +29,12 @@ const Login = () => {
     if(name.length > 0 && lastname.length > 0 && email.length > 0 && password.length > 0 && confirmPassword.length > 0){
 
       if(password === confirmPassword){
-        const formData = {
-          username: name + " " + lastname,
-          email,
-          password
-        };
         try{
-        const response = await axios.post("http://localhost:3000/api/v1/register", formData);
+        const response = await createUserWithEmailAndPassword(
+          auth, 
+          email, 
+          password
+        );
          toast.success("Registration successfull");
          navigate("/login");
        }catch(err){

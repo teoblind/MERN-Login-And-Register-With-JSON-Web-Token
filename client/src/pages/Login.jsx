@@ -8,6 +8,8 @@ import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,16 +24,11 @@ const Login = () => {
     let password = e.target.password.value;
 
     if (email.length > 0 && password.length > 0) {
-      const formData = {
-        email,
-        password,
-      };
       try {
-        const response = await axios.post(
-          "http://localhost:3000/api/v1/login",
-          formData
-        );
-        localStorage.setItem('auth', JSON.stringify(response.data.token));
+        const result = await signInWithEmailAndPassword(
+          auth, email, password
+        )
+        // localStorage.setItem('auth', JSON.stringify(response.data.token));
         toast.success("Login successfull");
         navigate("/dashboard");
       } catch (err) {
@@ -43,12 +40,12 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if(token !== ""){
-      toast.success("You already logged in");
-      navigate("/dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if(token !== ""){
+  //     toast.success("You already logged in");
+  //     navigate("/dashboard");
+  //   }
+  // }, []);
 
   return (
     <div className="login-main">

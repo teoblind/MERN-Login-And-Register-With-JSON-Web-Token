@@ -9,6 +9,16 @@
     flex-direction: column;
 }
 
+.dashboard-main h2{
+    font-size: 15px;
+    height: 10vh;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .dashboard-main p{
   font-size: 20px;
   padding: 0 20px
